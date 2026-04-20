@@ -50,6 +50,10 @@ WORKDIR /build
 RUN git clone https://github.com/nanvix/rust /build/rust && \
     cd /build/rust && git checkout ${RUST_COMMIT}
 
+# Install rustup (required by the build script).
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
+ENV PATH="/root/.cargo/bin:${PATH}"
+
 # Build Rust toolchain.
 RUN cd /build/rust && \
     ./z configure --install-location="${PREFIX}" --stage=0 --sysroot-location="/opt/nanvix/toolchain-gcc" && \

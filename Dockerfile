@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         ninja-build \
         pkg-config \
         python3 \
+        wget \
         xz-utils \
     && rm -rf /var/lib/apt/lists/*
 

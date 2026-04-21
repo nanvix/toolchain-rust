@@ -54,6 +54,12 @@ RUN git clone https://github.com/nanvix/rust /build/rust && \
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
 ENV PATH="/root/.cargo/bin:${PATH}"
 
+# Tell the cc crate which cross-compiler to use for the i686-unknown-nanvix
+# target. The GCC binary is named i686-nanvix-gcc (not i686-unknown-nanvix-gcc),
+# so without this the cc crate falls back to the host gcc and fails.
+ENV CC_i686_unknown_nanvix=i686-nanvix-gcc
+ENV CXX_i686_unknown_nanvix=i686-nanvix-g++
+
 # Build Rust toolchain.
 RUN cd /build/rust && \
     ./z configure --install-location="${PREFIX}" --stage=0 --sysroot-location="/opt/nanvix/toolchain-gcc" && \
